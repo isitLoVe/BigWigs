@@ -84,60 +84,6 @@ L:RegisterTranslations("enUS", function() return {
 } end)
 
 
-
-  
-L:RegisterTranslations("deDE", function() return {
-	["%s mod enabled"] = "%s Modul aktiviert",
-	["Target monitoring enabled"] = "Zielüberwachung aktiviert",
-	["Target monitoring disabled"] = "Zielüberwachung deaktiviert",
-	["%s engaged!"] = "%s angegriffen!",
-	["%s has been defeated"] = "%s wurde besiegt",     -- "<boss> has been defeated"
-	["%s have been defeated"] = "%s wurden besiegt",    -- "<bosses> have been defeated"
-
-	-- AceConsole strings
-	-- ["boss"] = true,
-	["Bosses"] = "Bosse",
-	["Options for boss modules."] = "Optionen für Boss Module.",
-	["Options for bosses in %s."] = "Optionen für Bosse in %s.", -- "Options for bosses in <zone>"
-	["Options for %s (r%s)."] = "Optionen für %s (r%s).",     -- "Options for <boss> (<revision>)"
-	-- ["plugin"] = true,
-	["Plugins"] = "Plugins",
-	["Options for plugins."] = "Optionen für Plugins.",
-	-- ["extra"] = true,
-	["Extras"] = "Extras",
-	["Options for extras."] = "Optionen für Extras.",
-	-- ["toggle"] = true,
-	["Active"] = "Aktivieren",
-	["Activate or deactivate this module."] = "Aktiviert oder deaktiviert dieses Modul.",
-	-- ["reboot"] = true,
-	["Reboot"] = "Neustarten",
-	["Reboot All"] = "Alles Neustarten",
-	["Reboot this module."] = "Startet dieses Modul neu.",
-	-- ["debug"] = true,
-	["Debugging"] = "Debugging",
-	["Show debug messages."] = "Zeige Debug Nachrichten.",
-	["Forces the module to reset for everyone in the raid.\n\n(Requires assistant or higher)"] = "Erzwingt dass das Modul für jeden im Raid zurückgesetzt wird.\n\n(Benötigt Schlachtzugleiter oder Assistent)",
-	["%s has requested forced reboot for the %s module."] = "%s hat einen Zwangsneustart für das %s-Modul beantragt.",
-	-- bosskill_cmd = "kill",
-	bosskill_name = "Boss besiegt",
-	bosskill_desc = "Melde, wenn ein Boss besiegt wurde.",
-
-	-- AceConsole zone commands
-	["Zul'Gurub"] = "ZG",
-	["Molten Core"] = "MC",
-	["Blackwing Lair"] = "BWL",
-	["Ahn'Qiraj"] = "AQ40",
-	["Ruins of Ahn'Qiraj"] = "AQ20",
-	["Onyxia's Lair"] = "Onyxia",
-	["Naxxramas"] = "Naxxramas",
-	-- ["Silithus"] = true,
-	["Outdoor Raid Bosses"] = "Outdoor",
-	-- ["Outdoor Raid Bosses Zone"] = "Outdoor Raid Bosses", -- DO NOT EVER TRANSLATE untill I find a more elegant option
-            
-    ["You have slain %s!"] = "Ihr habt %s getötet!",
-} end)
-
-
 ---------------------------------
 --      Addon Declaration      --
 ---------------------------------
@@ -173,8 +119,8 @@ BigWigs:RegisterChatCommand({"/bwcl", "/BigWigscl"}, BigWigs.cmdtable)
 BigWigs:RegisterChatCommand({"/bw", "/BigWigs"}, function() waterfall:Open("BigWigs") end)
 waterfall:Register('BigWigs', 'aceOptions',BigWigs.cmdtable, 'title','BigWigs', 'colorR', 0.2, 'colorG', 0.6, 'colorB', 0.2) 
 
-BigWigs.debugFrame = ChatFrame1
-BigWigs.revision = 20011
+BigWigs.debugFrame = DEFAULT_CHAT_FRAME
+BigWigs.revision = 20000
 
 
 function BigWigs:DebugMessage(msg, module)
@@ -251,7 +197,7 @@ end
 
 -- do not override
 BigWigs.modulePrototype.core = BigWigs
-BigWigs.modulePrototype.debugFrame = ChatFrame1
+BigWigs.modulePrototype.debugFrame = DEFAULT_CHAT_FRAME
 BigWigs.modulePrototype.engaged = false
 BigWigs.modulePrototype.bossSync = nil -- "Ouro"
 

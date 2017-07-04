@@ -1,19 +1,12 @@
 ## Interface: 11200
 
-## Title: Big Wigs |cff7fff7fClassic-WoW|r
-## Title-zhCN: |cff7fff7fClassic-WoW|r Big Wigs 
+## Title: BigWigs |cff02bf02VG|r
 ## Notes: Boss Mods with Timer bars.
-## Notes-zhCN: 团队首领战信息提示插件，带有计时条。
-## Notes-zhTW: 團隊首領戰訊息提示插件，帶有計時條。
-## Author: Tekkub Stoutwrithe, Ammo, Shyva, Rabbit, LYQ, Dorann & Others
-## Version: 2.0.0
-## X-Website: https://github.com/xorann/BigWigs/releases
-## X-Email: xorann@gmail.com
+## Author: Luise
+## Version: 20000
+## X-Website: https://github.com/isitLoVe/BigWigsVG
+## X-Email: luise.paradigm@gmail.com
 ## X-Category: Raid
-## X-RelSite-WoWI: 5086
-## X-RelSite-Curse: 4356
-## X-AceForum: 1222
-## X-FlySpray: 1
 
 ## OptionalDeps: Ace2, FuBar, FuBarPlugin-2.0, Babble-2.2, CandyBar, CompostLib, DewdropLib, PaintChipsLib, TabletLib, SurfaceLib, Surfaces, MikScrollingBattleText, sct, SpellStatusLib, SpellCacheLib, GratuityLib, Deformat, SpecialEventsEmbed
 ## X-Embeds: Ace2, FuBarPlugin-2.0, Babble-2.2, CandyBar, CompostLib, DewdropLib, PaintChipsLib, TabletLib, SurfaceLib
@@ -72,18 +65,17 @@ Plugins\CustomBar.lua
 Plugins\Tranq.lua
 Plugins\ZombieFood.lua
 Plugins\LoathebTactical.lua
-# Plugins\NefCount.lua
 Plugins\RespawnTimers.lua
 Plugins\WarningSign.lua
 Plugins\BossRecords.lua
-#Plugins\ReadyCheck.lua
+Plugins\ReadyCheck.lua
 Plugins\RaidOfficer.lua
 Plugins\AutoReply.lua
 Plugins\Proximity.lua
 Plugins\DousedRunes.lua
 Plugins\Enrage.lua
 Plugins\Ignite.lua
-#Plugins\Combat.lua
+Plugins\Combat.lua
 Plugins\Farclip.lua
 
 Raids\ZG\Arlokk.lua
@@ -145,8 +137,6 @@ Raids\Other\Emeriss.lua
 Raids\Other\Lethon.lua
 Raids\Other\Taerar.lua
 Raids\Other\Ysondre.lua
-
-#Raids\Other\Boar.lua
 
 Raids\Onyxia\Onyxia.lua
 

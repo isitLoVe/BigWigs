@@ -33,25 +33,6 @@ L:RegisterTranslations("enUS", function() return {
 	["You need to be an assistant or raid leader to use this function."] = true,
 } end)
 
-L:RegisterTranslations("deDE", function() return {
-	["|cff00ff00Module running|r"] = "|cff00ff00Modul aktiviert|r",
-	["|cffeda55fClick|r to reset all running modules. |cffeda55fCtrl+Click|r to force reboot for everyone (Requires assistant or higher). |cffeda55fAlt+Click|r to disable them. |cffeda55fCtrl+Alt+Click|r to disable Big Wigs completely."] = "|cffeda55fKlicken|r, um alle laufenden Module zurückzusetzen. |cffeda55fStrg+Klick|r um Reset für jedermann zu erzwingen (Benötigt Assistent oder höher). |cffeda55fAlt+Klick|r um alle laufenden Module zu beenden. |cffeda55fStrg+Shift+Klick|r um BigWigs komplett zu beenden.",
-	["|cffeda55fClick|r to enable."] = "|cffeda55fKlicken|r um zu aktivieren.",
-	["Big Wigs is currently disabled."] = "Big Wigs ist momentan deaktiviert.",
-	["Active boss modules"] = "Aktive Boss Module",
-	["hidden"] = "versteckt",
-	["shown"] = "angezeigt",
-	-- ["minimap"] = true,
-	["Minimap"] = "Minimap",
-	["Toggle the minimap button."] = "Minimap Button anzeigen.",
-	["All running modules have been reset."] = "Alle laufenden Module wurden zurückgesetzt.",
-	["All running modules have been rebooted for all raid members."] = "Alle laufenden Module wurden für alle Schlachtzugsmitglieder neu gestartet.",
-	["All running modules have been disabled."] = "Alle laufenden Module wurden beendet.",
-	["%s reset."] = "%s zurückgesetzt.",
-	["%s disabled."] = "%s beendet.",
-	["%s icon is now %s."] = "%s Icon ist jetzt %s.",
-	["You need to be an assistant or raid leader to use this function."] = "Du musst Schlachtzugsleiter oder Assistent sein, um diese Funktion zu benutzen.",
-} end)
 
 ----------------------------------
 --      Module Declaration      --
