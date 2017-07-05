@@ -233,10 +233,10 @@ function module:NewPolarity(chargetype)
 		if self.previousCharge and self.previousCharge == chargetype then
 			self:Message(L["nochange"], "Urgent", true, "Long")
 		elseif chargetype == L["positivetype"] then
-			self:Message(L["poswarn"], "Positive", true, "RunAway")
+			self:Message(L["poswarn"], "Positive", true, "Alert")
 			self:WarningSign(chargetype, 5)
 		elseif chargetype == L["negativetype"] then
-			self:Message(L["negwarn"], "Important", true, "RunAway")
+			self:Message(L["negwarn"], "Important", true, "Alert")
 			self:WarningSign(chargetype, 5)
 		end
 		self:Bar(L["polaritytickbar"], timer.polarityTick, chargetype, "Important")
@@ -305,7 +305,7 @@ end
 function module:PolarityShift()
 	if self.db.profile.polarity then
 		self:RegisterEvent("PLAYER_AURAS_CHANGED")
-		self:DelayedMessage(timer.polarityShift - 3, L["pswarn3"], "Important", nil, "Beware")
+		self:DelayedMessage(timer.polarityShift - 3, L["pswarn3"], "Important", nil, "Alarm")
 		self:Bar(L["bar1text"], timer.polarityShift, icon.polarityShift)
 	end
 end

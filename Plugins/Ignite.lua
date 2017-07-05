@@ -432,7 +432,7 @@ end
 
 function BigWigsIgnite:ShowWarning()
 	if self.db.profile.isVisible or self.db.profile.showWarnings then
-        self:Message("Stop Firespells!", "Urgent", true, "Pain")
+        self:Message("Stop Firespells!", "Urgent", true, "Info")
         frame:SetBackdropColor(200/255, 30/255, 30/255)
     end
 end

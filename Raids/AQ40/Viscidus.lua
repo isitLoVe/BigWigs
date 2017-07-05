@@ -187,7 +187,7 @@ function module:CheckVis(arg1)
 		local _,_, pl, ty = string.find(arg1, L["toxin_trigger"])
 		if (pl and ty) then
 			if self.db.profile.toxinyou and pl == L["you"] and ty == L["are"] then
-				self:Message(L["toxin_self_warn"], "Personal", true, "RunAway")
+				self:Message(L["toxin_self_warn"], "Personal", true, "Alert")
 				self:Message(UnitName("player") .. L["toxin_warn"], "Important", nil, nil, true)
 				self:WarningSign("Spell_Nature_AbolishMagic", 5)
 			elseif self.db.profile.toxinother then

@@ -344,7 +344,7 @@ function module:Adrenaline(name)
 			self:Bar(string.format(L["adrenaline_bar"], name), timer.adrenaline, icon.adrenaline, true, "White")
 			self:SetCandyBarOnClick("BigWigsBar "..string.format(L["adrenaline_bar"], name), function(name, button, extra) TargetByName(extra, true) end, name)
 			if name == UnitName("player") then
-				self:Message(L["adrenaline_message_you"], "Attention", true, "Beware")
+				self:Message(L["adrenaline_message_you"], "Attention", true, "Alarm")
                 self:WarningSign(icon.adrenaline, timer.adrenaline)
 			else
 				self:Message(string.format(L["adrenaline_message"], name), "Urgent")

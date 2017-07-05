@@ -182,7 +182,7 @@ function module:Erruption()
                 self:Bar(L["erruptionbar"], timer.erruption, icon.erruption)
                 self:ScheduleEvent("HeiganErruption", self.Erruption, timer.erruption, self)
             else
-                self:Sound("Beware")
+                self:Sound("Alarm")
                 self:Bar(L["dancingshoes"], timer.dancing, icon.dancing)
             end
         else

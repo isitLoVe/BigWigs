@@ -306,8 +306,8 @@ function BigWigsBars:OnEnable()
 	if not surface:Fetch(self.db.profile.texture) then self.db.profile.texture = "BantoBar" end
 	self.frames = {}
     self:SetupFrames()
-    self:SetupFrames(true)
     self:SetupHPBarFrame()
+    self:SetupEmphBarFrame()
 	self:RegisterEvent("BigWigs_ShowAnchors")
 	self:RegisterEvent("BigWigs_HideAnchors")
 	self:RegisterEvent("BigWigs_StartBar")
@@ -386,24 +386,35 @@ function BigWigsBars:BigWigs_ShowAnchors()
 	if not self.frames.anchor then self:SetupFrames() end
     self.frames.anchor:Show()
     
-    if self.db.profile.emphasize and self.db.profile.emphasizeMove then
-		if not self.frames.emphasizeAnchor then self:SetupFrames(true) end
-		self.frames.emphasizeAnchor:Show()
-	end
-    
+	if not self.frames.hpanchor then self:SetupHPBarFrame() end
     self.frames.hpAnchor:Show()
+
+	if self.db.profile.emphasize and self.db.profile.emphasizeMove then
+		if not self.frames.emphasizeAnchor then self:SetupEmphBarFrame() end
+			self.frames.emphasizeAnchor:Show()
+	end
+   
 end
 
 
 function BigWigsBars:BigWigs_HideAnchors()
-	if not self.frames.anchor then return end
-    self.frames.anchor:Hide()
+	if not self.frames.anchor then
+		return
+	else
+		self.frames.anchor:Hide()
+	end
     
-    if self.frames.emphasizeAnchor then
+    if not self.frames.emphasizeAnchor then
+		return
+	else
 		self.frames.emphasizeAnchor:Hide()
 	end
     
-    self.frames.hpAnchor:Hide()
+    if not self.frames.hpAnchor  then
+		return
+	else
+		self.frames.hpAnchor:Hide()
+	end
 end
 
 
@@ -451,7 +462,7 @@ function BigWigsBars:BigWigs_StartBar(module, text, time, icon, otherc, c1, c2, 
 			-- right away.
 			if self.db.profile.emphasizeMove then
 				groupId = self.frames.emphasizeAnchor.candyBarGroupId
-				if not self.frames.emphasizeAnchor then self:SetupFrames(true) end
+				if not self.frames.emphasizeAnchor then self:SetupEmphFrames() end
 				scale = self.db.profile.emphasizeScale or 1
 			end
 			if self.db.profile.emphasizeFlash then
@@ -809,7 +820,7 @@ function BigWigsBars:EmphasizeBar(module, id)
         self.frames.emphasizeAnchor.emphasizeTimers[module][id] = nil 
     end
 
-	if not self.frames.emphasizeAnchor then self:SetupFrames(true) end
+	if not self.frames.emphasizeAnchor then self:SetupEmphFrames() end
 
 	if not self:IsEventScheduled("BigWigsBarMover") then
 		self:ScheduleRepeatingEvent("BigWigsBarMover", self.UpdateBars, 0, self)
@@ -861,19 +872,17 @@ end
 --    Create the Anchor     --
 ------------------------------
 
-function BigWigsBars:SetupFrames(emphasize)
-	if not self.db.profile.emphasize and self.frames.anchor then return end
-    if self.db.profile.emphasize and self.frames.emphasizeAnchor then return end
-    
+function BigWigsBars:SetupFrames()
+	if self.frames.anchor then return end
+    BigWigs:DebugMessage("SetupFrames")
+
     local f, t	
 
 	f, _, _ = GameFontNormal:GetFont()
 
 	--self.frames = {}
     
-	local frame = CreateFrame("Frame", emphasize and "BigWigsEmphasizedBarAnchor" or "BigWigsBarAnchor", UIParent)
-    
-    --DEFAULT_CHAT_FRAME:AddMessage(frame:GetAttribute("name"))
+	local frame = CreateFrame("Frame", "BigWigsBarAnchor", UIParent)    
     
 	frame.owner = self
 	frame:Hide()
@@ -888,7 +897,7 @@ function BigWigsBars:SetupFrames(emphasize)
 	frame:SetBackdropBorderColor(.5, .5, .5)
 	frame:SetBackdropColor(0,0,0)
 	frame:ClearAllPoints()
-	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	frame:SetPoint("TOP", UIParent, "TOP", 250, 0)
 	frame:EnableMouse(true)
     frame:RegisterForDrag("LeftButton")
 	frame:SetMovable(true)
@@ -985,56 +994,34 @@ function BigWigsBars:SetupFrames(emphasize)
 
     frame.rightbutton = rightbutton
     
-    if emphasize then
-        self.frames.emphasizeAnchor = frame
-        self.frames.emphasizeAnchor.cheader:SetText(L["Emphasize Bars"])
-        
-        local x = self.db.profile.emphasizePosX
-		local y = self.db.profile.emphasizePosY
-		if x and y then
-			local scale = self.frames.emphasizeAnchor:GetEffectiveScale()
-			self.frames.emphasizeAnchor:ClearAllPoints()
-			self.frames.emphasizeAnchor:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / scale, y / scale)
-		else
-			self:ResetAnchor("emphasize")
-		end
-        
-        local value = self.db.profile.emphasizeGrowup
-        self.frames.emphasizeAnchor.candyBarGroupId = "BigWigsEmphasizedGroup"
-        self:RegisterCandyBarGroup(self.frames.emphasizeAnchor.candyBarGroupId)
-        self:SetCandyBarGroupPoint(self.frames.emphasizeAnchor.candyBarGroupId, value and "BOTTOM" or "TOP", self.frames.emphasizeAnchor, value and "TOP" or "BOTTOM", 0, 0)
-        self:SetCandyBarGroupGrowth(self.frames.emphasizeAnchor.candyBarGroupId, value)
-        
-        self.frames.emphasizeAnchor.flashTimers = new()
-        self.frames.emphasizeAnchor.emphasizeTimers = new()
-        self.frames.emphasizeAnchor.moduleBars = new()
-        self.frames.emphasizeAnchor.movingBars = new()
-    else
-        self.frames.anchor = frame
-        
-        local x = self.db.profile.posx
-		local y = self.db.profile.posy
-		if x and y then
-			local s = self.frames.anchor:GetEffectiveScale()
-			self.frames.anchor:ClearAllPoints()
-			self.frames.anchor:SetPoint("TOP", UIParent, "TOP", 0, 0)--self.frames.anchor:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
-		else
-			self:ResetAnchor("normal")
-		end
-        
-        local value = self.db.profile.growup
-        self.frames.anchor.candyBarGroupId = "BigWigsGroup"
-        self:RegisterCandyBarGroup(self.frames.anchor.candyBarGroupId)
-        self:SetCandyBarGroupPoint(self.frames.anchor.candyBarGroupId, value and "BOTTOM" or "TOP", self.frames.anchor, value and "TOP" or "BOTTOM", 0, 0)
-        self:SetCandyBarGroupGrowth(self.frames.anchor.candyBarGroupId, value)
-    end    
+	self.frames.anchor = frame
+	
+	local x = self.db.profile.posx
+	local y = self.db.profile.posy
+	if x and y then
+	    BigWigs:DebugMessage("SetupFrames X: "..tostring(x))
+		BigWigs:DebugMessage("SetupFrames Y: "..tostring(y))
+
+		local s = self.frames.anchor:GetEffectiveScale()
+		self.frames.anchor:ClearAllPoints()
+		self.frames.anchor:SetPoint("TOP", UIParent, "TOP", 0, 0)--self.frames.anchor:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
+	else
+		self:ResetAnchor()
+	end
+	
+	local value = self.db.profile.growup
+	self.frames.anchor.candyBarGroupId = "BigWigsGroup"
+	self:RegisterCandyBarGroup(self.frames.anchor.candyBarGroupId)
+	self:SetCandyBarGroupPoint(self.frames.anchor.candyBarGroupId, value and "BOTTOM" or "TOP", self.frames.anchor, value and "TOP" or "BOTTOM", 0, 0)
+	self:SetCandyBarGroupGrowth(self.frames.anchor.candyBarGroupId, value)
     
     self:RestorePosition()
 end
 
+
 function BigWigsBars:SetupHPBarFrame()
 	if self.frames.hpAnchor then return end
-    
+    BigWigs:DebugMessage("SetupHPFrames")
     local f, t	
 
 	f, _, _ = GameFontNormal:GetFont()
@@ -1159,10 +1146,10 @@ function BigWigsBars:SetupHPBarFrame()
     local y = self.db.profile.hpPosy
     if x and y then
         local s = self.frames.anchor:GetEffectiveScale()
-        self.frames.anchor:ClearAllPoints()
-        self.frames.anchor:SetPoint("TOP", UIParent, "TOP", 0, 0)--self.frames.anchor:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
+        self.frames.hpAnchor:ClearAllPoints()
+        self.frames.hpAnchor:SetPoint("TOP", UIParent, "TOP", 0, 0)--self.frames.anchor:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
     else
-        self:ResetAnchor("normal")
+        self:ResetAnchor()
     end
 
     local value = self.db.profile.growup
@@ -1174,30 +1161,172 @@ function BigWigsBars:SetupHPBarFrame()
     self:RestorePositionHP()
 end
 
-function BigWigsBars:ResetAnchor(specific)
-	if not specific or specific == "reset" or specific == "normal" then
-		if not self.frames.anchor then self:SetupFrames() end
-		self.frames.anchor:ClearAllPoints()
-		if self.db.profile.emphasize and self.db.profile.emphasizeMove then
-			self.frames.anchor:SetPoint("TOP", UIParent, "TOP", 0, 0)
-		else
-			self.frames.anchor:SetPoint("CENTER", UIParent, "CENTER")
-		end
-		self.db.profile.posx = nil
-		self.db.profile.posy = nil
+function BigWigsBars:SetupEmphBarFrame()
+	if self.frames.emphasizeAnchor then return end
+    BigWigs:DebugMessage("SetupEmphFrames")
+
+    local f, t	
+
+	f, _, _ = GameFontNormal:GetFont()
+
+	--self.frames = {}
+    
+	local frame = CreateFrame("Frame", "BigWigsEmphBarAnchor", UIParent)
+    
+	frame.owner = self
+	frame:Hide()
+
+	frame:SetWidth(175)
+	frame:SetHeight(75)
+	frame:SetBackdrop({
+		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", tile = true, tileSize = 16,
+		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16,
+		insets = {left = 4, right = 4, top = 4, bottom = 4},
+		})
+	frame:SetBackdropBorderColor(.5, .5, .5)
+	frame:SetBackdropColor(0,0,0)
+	frame:ClearAllPoints()
+	frame:SetPoint("TOP", UIParent, "TOP", 250, 0)
+	frame:EnableMouse(true)
+    frame:RegisterForDrag("LeftButton")
+	frame:SetMovable(true)
+	frame:SetScript("OnDragStart", function() this:StartMoving() end)
+	frame:SetScript("OnDragStop", function() this:StopMovingOrSizing() this.owner:SavePosition() end)
+
+
+	local cfade = frame:CreateTexture(nil, "BORDER")
+	cfade:SetWidth(169)
+	cfade:SetHeight(25)
+	cfade:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
+	cfade:SetPoint("TOP", frame, "TOP", 0, -4)
+	cfade:SetBlendMode("ADD")
+	cfade:SetGradientAlpha("VERTICAL", .1, .1, .1, 0, .25, .25, .25, 1)
+	frame.cfade = cfade
+
+	local cheader = frame:CreateFontString(nil,"OVERLAY")
+	cheader:SetFont(f, 14)
+	cheader:SetWidth(150)
+	cheader:SetText(L["Emphasize Bars"])
+	cheader:SetTextColor(1, .8, 0)
+	cheader:ClearAllPoints()
+	cheader:SetPoint("TOP", frame, "TOP", 0, -10)
+    
+    frame.cheader = cheader
+	
+	local leftbutton = CreateFrame("Button", nil, frame)
+	leftbutton.owner = self
+	leftbutton:SetWidth(40)
+	leftbutton:SetHeight(25)
+	leftbutton:SetPoint("RIGHT", frame, "CENTER", -10, -15)
+	leftbutton:SetScript("OnClick", function()  self:TriggerEvent("BigWigs_Test") end )
+
+	
+	t = leftbutton:CreateTexture()
+	t:SetWidth(50)
+	t:SetHeight(32)
+	t:SetPoint("CENTER", leftbutton, "CENTER")
+	t:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up")
+	t:SetTexCoord(0, 0.625, 0, 0.6875)
+	leftbutton:SetNormalTexture(t)
+
+	t = leftbutton:CreateTexture(nil, "BACKGROUND")
+	t:SetTexture("Interface\\Buttons\\UI-Panel-Button-Down")
+	t:SetTexCoord(0, 0.625, 0, 0.6875)
+	t:SetAllPoints(leftbutton)
+	leftbutton:SetPushedTexture(t)
+	
+	t = leftbutton:CreateTexture()
+	t:SetTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
+	t:SetTexCoord(0, 0.625, 0, 0.6875)
+	t:SetAllPoints(leftbutton)
+	t:SetBlendMode("ADD")
+	leftbutton:SetHighlightTexture(t)
+	leftbuttontext = leftbutton:CreateFontString(nil,"OVERLAY")
+	leftbuttontext:SetFontObject(GameFontHighlight)
+	leftbuttontext:SetText(L["Test"])
+	leftbuttontext:SetAllPoints(leftbutton)
+    
+    frame.leftbutton = leftbutton
+
+	local rightbutton = CreateFrame("Button", nil, frame)
+	rightbutton.owner = self
+	rightbutton:SetWidth(40)
+	rightbutton:SetHeight(25)
+	rightbutton:SetPoint("LEFT", frame, "CENTER", 10, -15)
+	rightbutton:SetScript( "OnClick", function() self:BigWigs_HideAnchors() end )
+
+	
+	t = rightbutton:CreateTexture()
+	t:SetWidth(50)
+	t:SetHeight(32)
+	t:SetPoint("CENTER", rightbutton, "CENTER")
+	t:SetTexture("Interface\\Buttons\\UI-Panel-Button-Up")
+	t:SetTexCoord(0, 0.625, 0, 0.6875)
+	rightbutton:SetNormalTexture(t)
+
+	t = rightbutton:CreateTexture(nil, "BACKGROUND")
+	t:SetTexture("Interface\\Buttons\\UI-Panel-Button-Down")
+	t:SetTexCoord(0, 0.625, 0, 0.6875)
+	t:SetAllPoints(rightbutton)
+	rightbutton:SetPushedTexture(t)
+	
+	t = rightbutton:CreateTexture()
+	t:SetTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
+	t:SetTexCoord(0, 0.625, 0, 0.6875)
+	t:SetAllPoints(rightbutton)
+	t:SetBlendMode("ADD")
+	rightbutton:SetHighlightTexture(t)
+	rightbuttontext = rightbutton:CreateFontString(nil,"OVERLAY")
+	rightbuttontext:SetFontObject(GameFontHighlight)
+	rightbuttontext:SetText(L["Close"])
+	rightbuttontext:SetAllPoints(rightbutton)
+
+    frame.rightbutton = rightbutton
+
+	self.frames.emphasizeAnchor = frame
+
+	local x = self.db.profile.emphasizePosX
+	local y = self.db.profile.emphasizePosY
+    if x and y then
+		local scale = self.frames.emphasizeAnchor:GetEffectiveScale()
+		self.frames.emphasizeAnchor:ClearAllPoints()
+		self.frames.emphasizeAnchor:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / scale, y / scale)
+	else
+		self:ResetAnchor()
 	end
 
-	if (not specific or specific == "reset" or specific == "emphasize") and self.db.profile.emphasize and self.db.profile.emphasizeMove then
-		if not self.frames.emphasizeAnchor then self:SetupFrames(true) end
-		self.frames.emphasizeAnchor:ClearAllPoints()
-		self.frames.emphasizeAnchor:SetPoint("CENTER", UIParent, "CENTER")
-		self.db.profile.emphasizePosX = nil
-		self.db.profile.emphasizePosY = nil
-	end
+	local value = self.db.profile.emphasizeGrowup
+	self.frames.emphasizeAnchor.candyBarGroupId = "BigWigsEmphasizedGroup"
+	self:RegisterCandyBarGroup(self.frames.emphasizeAnchor.candyBarGroupId)
+	self:SetCandyBarGroupPoint(self.frames.emphasizeAnchor.candyBarGroupId, value and "BOTTOM" or "TOP", self.frames.emphasizeAnchor, value and "TOP" or "BOTTOM", 0, 0)
+	self:SetCandyBarGroupGrowth(self.frames.emphasizeAnchor.candyBarGroupId, value)
+	
+	self.frames.emphasizeAnchor.flashTimers = new()
+	self.frames.emphasizeAnchor.emphasizeTimers = new()
+	self.frames.emphasizeAnchor.moduleBars = new()
+	self.frames.emphasizeAnchor.movingBars = new()
+    
+    self:RestorePositionEmph()
+end
+
+
+
+function BigWigsBars:ResetAnchor()
+	if not self.frames.anchor then self:SetupFrames() end
+	self.frames.anchor:ClearAllPoints()
+	self.frames.anchor:SetPoint("CENTER", UIParent, "CENTER")
+	self.db.profile.posx = nil
+	self.db.profile.posy = nil
+
+	if not self.frames.emphasizeAnchor then self:SetupEmphFrames() end
+	self.frames.emphasizeAnchor:ClearAllPoints()
+	self.frames.emphasizeAnchor:SetPoint("CENTER", UIParent, "CENTER")
+	self.db.profile.emphasizePosX = nil
+	self.db.profile.emphasizePosY = nil
     
     if not self.frames.hpAnchor then self:SetupHPBarFrame() end
     self.frames.hpAnchor:ClearAllPoints()
-    self.frames.hpAnchor:SetPoint("TOP", UIParent, "TOP", 250, 0)
+    self.frames.hpAnchor:SetPoint("CENTER", UIParent, "CENTER")
     self.db.profile.hpPosx = nil
     self.db.profile.hpPosy = nil
 end
@@ -1205,23 +1334,25 @@ end
 function BigWigsBars:SavePosition()
     if not self.frames.anchor then self:SetupFrames() end
     if not self.frames.hpAnchor then self:SetupHPBarFrame() end
-    
+	if not self.frames.emphasizeAnchor then self:SetupEmphFrames() end
+	
 	local s = self.frames.anchor:GetEffectiveScale()
 	self.db.profile.posx = self.frames.anchor:GetLeft() * s
 	self.db.profile.posy = self.frames.anchor:GetTop() * s
-    
-	if self.db.profile.emphasize and self.db.profile.emphasizeMove then
-		if not self.frames.emphasizeAnchor then self:SetupFrames(true) end
-		s = self.frames.emphasizeAnchor:GetEffectiveScale()
-		self.db.profile.emphasizePosX = self.frames.emphasizeAnchor:GetLeft() * s
-		self.db.profile.emphasizePosY = self.frames.emphasizeAnchor:GetTop() * s
-	end	
-    
-    -- hp anchor
-    s = self.frames.hpAnchor:GetEffectiveScale()
+    BigWigs:DebugMessage("Bar X:" .. tostring(self.db.profile.posx))
+    BigWigs:DebugMessage("Bar Y:" .. tostring(self.db.profile.posy))
+
+    local s = self.frames.hpAnchor:GetEffectiveScale()
 	self.db.profile.hpPosx = self.frames.hpAnchor:GetLeft() * s
 	self.db.profile.hpPosy = self.frames.hpAnchor:GetTop() * s
-    
+    BigWigs:DebugMessage("HPBar X:" .. tostring(self.db.profile.hpPosx))
+    BigWigs:DebugMessage("HPBar Y:" .. tostring(self.db.profile.hpPosy))
+
+	local s = self.frames.emphasizeAnchor:GetEffectiveScale()
+	self.db.profile.emphasizePosX = self.frames.emphasizeAnchor:GetLeft() * s
+	self.db.profile.emphasizePosY = self.frames.emphasizeAnchor:GetTop() * s
+    BigWigs:DebugMessage("EmphBar X:" .. tostring(self.db.profile.emphasizePosX))
+    BigWigs:DebugMessage("EmphBar Y:" .. tostring(self.db.profile.emphasizePosY))
 end
 
 
@@ -1237,6 +1368,7 @@ function BigWigsBars:RestorePosition()
 	f:ClearAllPoints()
 	f:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
 end
+
 function BigWigsBars:RestorePositionHP()
 	local x = self.db.profile.hpPosx
 	local y = self.db.profile.hpPosy
@@ -1244,6 +1376,19 @@ function BigWigsBars:RestorePositionHP()
 	if not x or not y then return end
 				
 	local f = self.frames.hpAnchor
+	local s = f:GetEffectiveScale()
+
+	f:ClearAllPoints()
+	f:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
+end
+
+function BigWigsBars:RestorePositionEmph()
+	local x = self.db.profile.emphasizePosX
+	local y = self.db.profile.emphasizePosY
+		
+	if not x or not y then return end
+				
+	local f = self.frames.emphasizeAnchor 
 	local s = f:GetEffectiveScale()
 
 	f:ClearAllPoints()

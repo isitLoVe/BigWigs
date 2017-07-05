@@ -334,7 +334,7 @@ function module:Emerge()
         self:RemoveBar(L["submergebartext"])
 
         if self.db.profile.emerge then
-            self:Message(L["emergeannounce"], "Important", false, "Beware")
+            self:Message(L["emergeannounce"], "Important", false, "Alarm")
             self:PossibleSubmerge()
         end
 
@@ -395,7 +395,7 @@ function module:Berserk()
 	self:UnregisterEvent("CHAT_MSG_SPELL_CREATURE_VS_CREATURE_BUFF")
 
 	if self.db.profile.berserk then
-		self:Message(L["berserkannounce"], "Important", true, "Beware")
+		self:Message(L["berserkannounce"], "Important", true, "Alarm")
 	end
 end
 

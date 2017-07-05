@@ -215,6 +215,6 @@ end
 
 function module:Supreme()
 	if self.db.profile.supreme then
-		self:Message(L["supremewarn"], "Attention", nil, "Beware")
+		self:Message(L["supremewarn"], "Attention", nil, "Alarm")
 	end
 end

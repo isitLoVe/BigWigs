@@ -94,7 +94,7 @@ function module:CHAT_MSG_MONSTER_EMOTE( msg )
 	if player then
 		if player == L["you"] and self.db.profile.you then
 			player = UnitName("player")
-			self:Message(L["watchwarnyou"], "Personal", true, "RunAway")
+			self:Message(L["watchwarnyou"], "Personal", true, "Alert")
 			self:Message(UnitName("player") .. L["watchwarn"], "Attention", nil, nil, true)
 		elseif self.db.profile.other then
 			self:Message(player .. L["watchwarn"], "Attention")

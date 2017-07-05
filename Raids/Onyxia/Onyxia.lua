@@ -289,7 +289,7 @@ end
 
 function module:Phase3()
 	if self.db.profile.phase and phase < 3 then
-		self:Message(L["phase3text"], "Important", true, "Beware")
+		self:Message(L["phase3text"], "Important", true, "Alert")
         self:Bar(L["fear_next"], timer.firstFear + timer.fearCast, icon.fear)
         phase = 3
 	end
@@ -297,7 +297,7 @@ end
 
 function module:DeepBreath()
 	if self.db.profile.deepbreath then
-		self:Message(L["warn1"], "Important", true, "RunAway")
+		self:Message(L["warn1"], "Important", true, "Alarm")
 		self:Bar(L["deepbreath_cast"], 5, icon.deepbreath, true, "black")
         self:WarningSign(icon.deepbreath_sign, 5)
 	end

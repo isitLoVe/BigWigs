@@ -164,7 +164,7 @@ end
 function module:Enrage( msg )
 	if string.find(msg, L["etrigger1"]) then
 		if self.db.profile.enrage then 
-			self:Message(L["enragewarn"], "Important", nil, "Beware") 
+			self:Message(L["enragewarn"], "Important", nil, "Alarm") 
 		end
 	end
 end

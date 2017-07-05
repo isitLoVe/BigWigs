@@ -221,7 +221,7 @@ function module:Event(msg)
 		self:Sync(syncName.bomb)
 		if self.db.profile.bomb then
 			self:Bar(string.format(L["bomb_bar1"], UnitName("player")), timer.bomb, icon.bomb)
-			self:Message(L["bomb_message_youscreen"], "Attention", "RunAway")
+			self:Message(L["bomb_message_youscreen"], "Attention", "Alert")
             self:WarningSign("Spell_Shadow_MindBomb", timer.bomb)
 		end
 		if self.db.profile.icon then

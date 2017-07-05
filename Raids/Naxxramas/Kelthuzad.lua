@@ -463,7 +463,7 @@ end
 
 function module:Phase3()
 	if self.db.profile.phase then
-		self:Message(L["phase3_warning"], "Attention", nil, "Beware")
+		self:Message(L["phase3_warning"], "Attention", nil, "Alarm")
 	end
 end
 

@@ -174,12 +174,6 @@ function module:Panic(delay)
 		self:DelayedMessage(timer.panic - 5 + delay, L["fearsoon"], "Urgent", nil, nil, true)		
 		self:Bar(L["fearbar"], timer.panic + delay, icon.panic)
 		
-		if playerClass == "WARRIOR" then
-			self:DelayedSound(timer.panic - 10 + delay, "Ten")
-			self:DelayedSound(timer.panic - 3 + delay, "Three")
-			self:DelayedSound(timer.panic - 2 + delay, "Two")
-			self:DelayedSound(timer.panic - 1 + delay, "One")
-		end
 	end
 end
 

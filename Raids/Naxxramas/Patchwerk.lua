@@ -121,7 +121,7 @@ end
 
 function module:Enrage()
 	if self.db.profile.enrage then
-		self:Message(L["enragewarn"], "Important", nil, "Beware")
+		self:Message(L["enragewarn"], "Important", nil, "Alarm")
 
 		self:RemoveBar(L["enragebartext"])
 		

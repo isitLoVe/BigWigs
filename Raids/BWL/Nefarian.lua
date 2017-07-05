@@ -316,7 +316,7 @@ function module:CHAT_MSG_MONSTER_YELL(msg)
 				if self.db.profile.classcall then
                     local localizedClass, englishClass = UnitClass("player");
                     if string.find(msg, localizedClass) then
-						self:Message(v[1], "Core", nil, "Beware")
+						self:Message(v[1], "Core", nil, "Alarm")
 						self:WarningSign(icon.classcall, 3)
 					else 
 						self:Message(v[1], "Core", nil, "Long")
@@ -324,9 +324,6 @@ function module:CHAT_MSG_MONSTER_YELL(msg)
 					
 					self:Bar(v[1], timer.classcall, icon.classcall)
 					self:DelayedMessage(timer.classcall - 3, L["classcall_warning"], "Important")
-					self:DelayedSound(timer.classcall - 3, "Three")
-					self:DelayedSound(timer.classcall - 2, "Two")
-					self:DelayedSound(timer.classcall - 1, "One")
 				end
 			else
 				if self.db.profile.otherwarn and string.find(msg, L["landing_trigger"]) then 
@@ -414,7 +411,7 @@ function module:Landing()
 		self:TriggerEvent("BigWigs_StopCounterBar", self, L["Drakonids dead"])
 		
         self:Bar(L["landing_warning"], timer.landing, icon.landing)
-        self:Message(L["landing_warning"], "Important", nil, "Beware")
+        self:Message(L["landing_warning"], "Important", nil, "Alarm")
 		
 		-- landing in 15s
 		self:DelayedBar(timer.landing, L["classcall_bar"], timer.firstClasscall, icon.classcall)

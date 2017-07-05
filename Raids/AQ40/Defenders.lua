@@ -169,7 +169,7 @@ end
 
 function module:BigWigs_RecvSync(sync, rest, nick)
 	if sync == syncName.explode and self.db.profile.explode then
-		self:Message(L["explodewarn"], "Important", nil, "Beware")
+		self:Message(L["explodewarn"], "Important", nil, "Alarm")
 		self:Bar(L["explodewarn"], timer.explode, icon.explode)
 	elseif sync == syncName.enrage and self.db.profile.enrage then
 		self:Message(L["enragewarn"], "Important")
@@ -199,7 +199,7 @@ function module:CheckPlague(msg)
 	local _,_, pplayer, ptype = string.find(msg, L["plaguetrigger"])
 	if pplayer then
 		if self.db.profile.plagueyou and pplayer == L["plagueyou"] then
-			self:Message(L["plagueyouwarn"], "Personal", true, "RunAway")
+			self:Message(L["plagueyouwarn"], "Personal", true, "Alert")
 			self:Message(UnitName("player") .. L["plaguewarn"], "Attention", nil, nil, true)
 			self:WarningSign(icon.plague, 5)
 		elseif self.db.profile.plagueother then

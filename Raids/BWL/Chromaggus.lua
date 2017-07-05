@@ -261,17 +261,6 @@ function module:OnEngage()
 		self:DelayedMessage(timer.secondBreath - 5, secondBarMSG, "Attention", nil, nil, true)
 		self:Bar(secondBarName, timer.secondBreath, icon.unknown, true, "cyan")
 	end
-	if self.db.profile.breathcd then
-		self:DelayedSound(timer.firstBreath - 10, "Ten", "b1_10")
-		self:DelayedSound(timer.firstBreath - 3, "Three", "b1_3")
-		self:DelayedSound(timer.firstBreath - 2, "Two", "b1_2")
-		self:DelayedSound(timer.firstBreath - 1, "One", "b1_1")
-		
-		self:DelayedSound(timer.secondBreath - 10, "Ten", "b2_10")
-		self:DelayedSound(timer.secondBreath - 3, "Three", "b2_3")
-		self:DelayedSound(timer.secondBreath - 2, "Two", "b2_2")
-		self:DelayedSound(timer.secondBreath - 1, "One", "b2_1")
-	end
 	if self.db.profile.frenzy then
 		self:Bar(L["frenzy_Nextbar"], timer.nextFrenzy, icon.frenzy, true, "white") 
 	end
@@ -293,7 +282,7 @@ function module:UNIT_HEALTH( msg )
 	if self.db.profile.enrage and UnitName(msg) == boss then
 		local health = UnitHealth(msg)
 		if health > 15 and health <= 20 and not twenty then
-			self:Message(L["enrage_warning"], "Important", true, "Beware")
+			self:Message(L["enrage_warning"], "Important", true, "Alarm")
 			twenty = true
 		elseif health > 90 and twenty then
 			twenty = nil
@@ -518,12 +507,6 @@ function module:BigWigs_RecvSync(sync, rest, nick)
 		self:DelayedMessage(timer.breathInterval - 5, string.format(L["breath_warning"], spellName), "Important", nil, nil, true)
 		self:DelayedBar(timer.breathCast, spellName, timer.breathInterval, L["icon"..rest], true, L["breathcolor"..rest]) -- delayed timer bar
         
-        if self.db.profile.breathcd then
-            self:DelayedSound(timer.breathInterval - 10, "Ten")
-            self:DelayedSound(timer.breathInterval - 3, "Three")
-            self:DelayedSound(timer.breathInterval - 2, "Two")
-            self:DelayedSound(timer.breathInterval - 1, "One")
-        end
         
 	elseif sync == syncName.frenzy then
 		if self.db.profile.frenzy and not frenzied then

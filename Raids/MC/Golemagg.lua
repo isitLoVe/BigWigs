@@ -122,6 +122,6 @@ function module:BigWigs_RecvSync(sync, rest, nick)
     if sync == syncName.earthquake and self.db.profile.earthquake then
 		self:Message(L["earthquakesoonwarn"], "Attention", "Alarm")
 	elseif sync == syncName.enrage and self.db.profile.enraged then
-		self:Message(L["enragewarn"], "Attention", true, "Beware")
+		self:Message(L["enragewarn"], "Attention", true, "Alarm")
 	end
 end

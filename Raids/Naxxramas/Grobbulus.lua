@@ -169,7 +169,7 @@ end
 function module:Inject(player)
 	if player then
 		if self.db.profile.youinjected and player == UnitName("player") then
-			self:Message(L["bomb_message_you"], "Personal", true, "Beware")
+			self:Message(L["bomb_message_you"], "Personal", true, "Alarm")
 			self:WarningSign(icon.inject, timer.inject)
 			
 			self:Message(string.format(L["bomb_message_other"], player), "Attention", nil, nil, true)

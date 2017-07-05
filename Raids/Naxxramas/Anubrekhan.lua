@@ -165,7 +165,7 @@ function module:LocustCast()
         self:RemoveBar(L["gainincbar"])
         
         -- add cast bar
-		self:Message(L["castwarn"], "Orange", nil, "Beware")
+		self:Message(L["castwarn"], "Orange", nil, "Alarm")
 		self:WarningSign(icon.locust, timer.locustSwarmCastTime)
 		self:Bar(L["castwarn"], timer.locustSwarmCastTime, icon.locust )
 	end

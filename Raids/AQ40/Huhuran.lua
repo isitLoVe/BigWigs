@@ -182,7 +182,7 @@ function module:CHAT_MSG_MONSTER_EMOTE(arg1)
 		self:CancelDelayedMessage(L["berserkwarn3"])
 		self:RemoveBar(L["berserkbar"])
 
-		self:Message(L["berserkwarn"], "Urgent", false, "Beware")
+		self:Message(L["berserkwarn"], "Urgent", false, "Alarm")
 		berserkannounced = true
 	end
 end

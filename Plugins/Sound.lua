@@ -8,32 +8,6 @@ assert(BigWigs, "BigWigs not found!")
 local L = AceLibrary("AceLocale-2.2"):new("BigWigsSound")
 --~~ local dewdrop = DewdropLib:GetInstance("1.0")
 
-local sounds = {
-	Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
-	Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
-	Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
-	Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
-	Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory.mp3",
-	
-	Beware = "Interface\\AddOns\\BigWigsVG\\Sounds\\Beware.wav",
-    RunAway = "Interface\\AddOns\\BigWigsVG\\Sounds\\RunAway.wav",
-    
-    One = "Interface\\AddOns\\BigWigsVG\\Sounds\\1.ogg",
-    Two = "Interface\\AddOns\\BigWigsVG\\Sounds\\2.ogg",
-    Three = "Interface\\AddOns\\BigWigsVG\\Sounds\\3.ogg",
-    Four = "Interface\\AddOns\\BigWigsVG\\Sounds\\4.ogg",
-    Five = "Interface\\AddOns\\BigWigsVG\\Sounds\\5.ogg",
-    Six = "Interface\\AddOns\\BigWigsVG\\Sounds\\6.ogg",
-    Seven = "Interface\\AddOns\\BigWigsVG\\Sounds\\7.ogg",
-    Eight = "Interface\\AddOns\\BigWigsVG\\Sounds\\8.ogg",
-    Nine = "Interface\\AddOns\\BigWigsVG\\Sounds\\9.ogg",
-    Ten = "Interface\\AddOns\\BigWigsVG\\Sounds\\10.ogg",
-    
-    Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
-    Pain = "Sound\\Creature\\Thaddius\\THAD_NAXX_ELECT.wav",
-}
-
-
 ----------------------------
 --      Localization      --
 ----------------------------
@@ -49,25 +23,12 @@ L:RegisterTranslations("enUS", function() return {
 	["default"] = true,
 	["Default only"] = true,
 	["Use only the default sound."] = true,
-} end)
-
-L:RegisterTranslations("koKR", function() return {
-	["Sounds"] = "효과음",
-	["Options for sounds."] = "효과음 옵션.",
-
-	["Use sounds"] = "효과음 사용",
-	["Toggle sounds on or off."] = "효과음을 켜거나 끔.",
-	["Default only"] = "기본음",
-	["Use only the default sound."] = "기본음만 사용.",
-} end)
-
-L:RegisterTranslations("deDE", function() return {
-	["Sounds"] = "Sound",
-	["Options for sounds."] = "Optionen f\195\188r Sound.",
-	["Use sounds"] = "Sound nutzen",
-	["Toggle sounds on or off."] = "Sound aktivieren/deaktivieren.",
-	["Default only"] = "Nur Standard",
-	["Use only the default sound."] = "Nur Standard Sound.",
+	
+	["victory"] = true,	
+	["Victory Sound"] = true,	
+	["Mortal Combat"] = true,	
+	["Final Fantasy VII"] = true,	
+	["Sound to play when a boss is killed."] = true,	
 } end)
 
 ----------------------------------
@@ -75,9 +36,11 @@ L:RegisterTranslations("deDE", function() return {
 ----------------------------------
 
 BigWigsSound = BigWigs:NewModule(L["Sounds"])
+BigWigsSound.revision = tonumber(string.sub("$Revision: 30000 $", 12, -3))
 BigWigsSound.defaults = {
 	defaultonly = false,
 	sound = true,
+	victorysound = L["Mortal Combat"],
 }
 BigWigsSound.consoleCmd = L["sounds"]
 BigWigsSound.consoleOptions = {
@@ -102,6 +65,14 @@ BigWigsSound.consoleOptions = {
 			get = function() return BigWigsSound.db.profile.defaultonly end,
 			set = function(v) BigWigsSound.db.profile.defaultonly = v end,
 		},
+		[L["victory"]] = {
+			type = "text",
+			name = L["Victory Sound"],
+			desc = L["Sound to play when a boss is killed."],
+			get = function() return BigWigsSound.db.profile.victorysound end,
+			set = function(v) BigWigsSound.db.profile.victorysound = v end,
+			validate = { L["Mortal Combat"], L["Final Fantasy VII"]  },
+		}
 	}
 }
 
@@ -112,19 +83,84 @@ BigWigsSound.consoleOptions = {
 function BigWigsSound:OnEnable()
 	self:RegisterEvent("BigWigs_Message")
 	self:RegisterEvent("BigWigs_Sound")
+	if not self.db.profile.victorysound then self.db.profile.victorysound = L["Mortal Combat"] end
 end
+
 function BigWigsSound:OnDisable()
     BigWigs:DebugMessage("OnDisable")
 end
 
 function BigWigsSound:BigWigs_Message(text, color, noraidsay, sound, broadcastonly)
 	if not text or sound == false or broadcastonly then return end
+	
+	if self.db.profile.victorysound and self.db.profile.victorysound == L["Final Fantasy VII"] then
+		sounds = {
+			Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
+			Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
+			Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
+			Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
+			Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory_FF.mp3",
+			Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
+		}
+	elseif self.db.profile.victorysound and self.db.profile.victorysound == L["Mortal Combat"] then
+		sounds = {
+			Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
+			Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
+			Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
+			Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
+			Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory_MC.mp3",
+			Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
+		}
+	else
+		sounds = {
+			Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
+			Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
+			Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
+			Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
+			Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory_MC.mp3",
+			Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
+		}
+	end
 
-	if sounds[sound] and not self.db.profile.defaultonly then PlaySoundFile(sounds[sound])
-	else PlaySound("RaidWarning") end
+	if sounds[sound] and not self.db.profile.defaultonly then
+		PlaySoundFile(sounds[sound])
+	else
+		PlaySound("RaidWarning")
+	end
+	
 end
 
 function BigWigsSound:BigWigs_Sound( sound )
+
+	if self.db.profile.victorysound and self.db.profile.victorysound == L["Final Fantasy VII"] then
+		sounds = {
+			Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
+			Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
+			Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
+			Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
+			Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory_FF.mp3",
+			Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
+		}
+	elseif self.db.profile.victorysound and self.db.profile.victorysound == L["Mortal Combat"] then
+		sounds = {
+			Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
+			Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
+			Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
+			Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
+			Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory_MC.mp3",
+			Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
+		}
+	else
+		sounds = {
+			Long = "Interface\\AddOns\\BigWigsVG\\Sounds\\Long.mp3",
+			Info = "Interface\\AddOns\\BigWigsVG\\Sounds\\Info.ogg",
+			Alert = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alert.mp3",
+			Alarm = "Interface\\AddOns\\BigWigsVG\\Sounds\\Alarm.mp3",
+			Victory = "Interface\\AddOns\\BigWigsVG\\Sounds\\Victory_MC.mp3",
+			Murloc = "Sound\\Creature\\Murloc\\mMurlocAggroOld.wav",
+		}
+	end
+
 	if sounds[sound] and not self.db.profile.defaultonly then 
 		PlaySoundFile(sounds[sound])
 	else 

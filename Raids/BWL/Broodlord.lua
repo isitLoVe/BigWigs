@@ -135,7 +135,7 @@ function module:Event(msg)
         MS = name
         lastMS = GetTime()
 		if detect == L["are"] then
-			self:Message(L["ms_warn_you"], "Core", true, "Beware")
+			self:Message(L["ms_warn_you"], "Core", true, "Alarm")
 			self:Bar(string.format(L["ms_bar"], UnitName("player")), timer.mortalStrike, icon.mortalStrike, true, "Black")
 			self:SetCandyBarOnClick("BigWigsBar "..string.format(L["ms_bar"], UnitName("player")), function(name, button, extra) TargetByName(extra, true) end, UnitName("player"))
             self:WarningSign(icon.mortalStrike, timer.mortalStrike)

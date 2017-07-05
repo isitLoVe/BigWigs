@@ -629,7 +629,7 @@ end
 
 function module:DigestiveAcid()
     if self.db.profile.acid then
-        self:Message(L["msgDigestiveAcid"], "Red", true, "RunAway")
+        self:Message(L["msgDigestiveAcid"], "Red", true, "Alert")
         self:WarningSign(icon.digestiveAcid, 5) --ability_creature_disease_02
     end
 end
@@ -685,57 +685,7 @@ function module:DarkGlare()
 end
 
 function module:GroupWarning()
-    --self:CheckTarget()
-    
-    --[[ group warning is not working properly anymore
-	if eyeTarget then
-        BigWigs:DebugMessage("GroupWarning; target: " .. eyeTarget)
-		local i, name, group, glareTarget, glareGroup, playerGroup
-        local playerName = GetUnitName("player")
-		for i = 1, GetNumRaidMembers(), 1 do
-			name, _, group, _, _, _, _, _ = GetRaidRosterInfo(i)
-			if name == eyeTarget then 
-                glareTarget = name
-                glareGroup = group
-            end
-            if name == playerName then
-                playerGroup = group
-            end
-		end
-        if self.db.profile.group then
-			self:Message(string.format( L["groupwarning"], glareGroup, eyeTarget), "Important")
-            
-            -- dark glare near you?
-            if (playerGroup == glareGroup or playerGroup == glareGroup - 1 or playerGroup == glareGroup + 1 or playerGroup == glareGroup - 7 or playerGroup == glareGroup + 7) then
-                 self:Sound("RunAway")
-            else
-                self:Sound("Beware")
-            end
-            
-            -- announce glare group
-            local number = "Eight"
-            if glareGroup == 1 then
-                number = "One"
-            elseif glareGroup == 2 then
-                number = "Two"
-            elseif glareGroup == 3 then
-                number = "Three"
-            elseif glareGroup == 4 then
-                number = "Four"
-            elseif glareGroup == 5 then
-                number = "Five"
-            elseif glareGroup == 6 then
-                number = "Six"
-            elseif glareGroup == 7 then
-                number = "Seven"
-            end
-            self:DelayedSound(1, number)
-            
-		end
-	else
-        self:Sound("Beware")
-    end]]
-    self:Sound("Beware")
+    self:Sound("Alarm")
     
 	if firstWarning then
 		self:CancelScheduledEvent("bwcthungroupwarning") -- ok
