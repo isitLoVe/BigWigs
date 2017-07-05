@@ -11,12 +11,12 @@ local waterfall = AceLibrary("Waterfall-1.0")
 
 local surface = AceLibrary("Surface-1.0")
 
-surface:Register("Armory", "Interface\\AddOns\\BigWigs\\Textures\\Armory")
-surface:Register("Otravi", "Interface\\AddOns\\BigWigs\\Textures\\otravi")
-surface:Register("Smooth", "Interface\\AddOns\\BigWigs\\Textures\\smooth")
-surface:Register("Glaze", "Interface\\AddOns\\BigWigs\\Textures\\glaze")
-surface:Register("Charcoal", "Interface\\AddOns\\BigWigs\\Textures\\Charcoal")
-surface:Register("BantoBar", "Interface\\AddOns\\BigWigs\\Textures\\default")
+surface:Register("Armory", "Interface\\AddOns\\BigWigsVG\\Textures\\Armory")
+surface:Register("Otravi", "Interface\\AddOns\\BigWigsVG\\Textures\\otravi")
+surface:Register("Smooth", "Interface\\AddOns\\BigWigsVG\\Textures\\smooth")
+surface:Register("Glaze", "Interface\\AddOns\\BigWigsVG\\Textures\\glaze")
+surface:Register("Charcoal", "Interface\\AddOns\\BigWigsVG\\Textures\\Charcoal")
+surface:Register("BantoBar", "Interface\\AddOns\\BigWigsVG\\Textures\\default")
 
 ----------------------------
 --      Localization      --
@@ -120,7 +120,7 @@ BigWigs:RegisterChatCommand({"/bw", "/BigWigs"}, function() waterfall:Open("BigW
 waterfall:Register('BigWigs', 'aceOptions',BigWigs.cmdtable, 'title','BigWigs', 'colorR', 0.2, 'colorG', 0.6, 'colorB', 0.2) 
 
 BigWigs.debugFrame = DEFAULT_CHAT_FRAME
-BigWigs.revision = 20000
+BigWigs.revision = 30000
 
 
 function BigWigs:DebugMessage(msg, module)

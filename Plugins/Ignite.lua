@@ -579,7 +579,7 @@ function BigWigsIgnite:SetupFrames()
 
 	frame:SetBackdrop({
 		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16,
-		edgeFile = "Interface\\AddOns\\BigWigs\\Textures\\otravi-semi-full-border", edgeSize = 32,
+		edgeFile = "Interface\\AddOns\\BigWigsVG\\Textures\\otravi-semi-full-border", edgeSize = 32,
         --edgeFile = "", edgeSize = 32,
 		insets = {left = 1, right = 1, top = 20, bottom = 1},
 	})
@@ -661,7 +661,7 @@ function BigWigsIgnite:SetupFrames()
     
 	
 	local close = frame:CreateTexture(nil, "ARTWORK")
-	close:SetTexture("Interface\\AddOns\\BigWigs\\Textures\\otravi-close")
+	close:SetTexture("Interface\\AddOns\\BigWigsVG\\Textures\\otravi-close")
 	close:SetTexCoord(0, .625, 0, .9333)
 
 	close:SetWidth(20)

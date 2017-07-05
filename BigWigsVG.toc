@@ -3,7 +3,7 @@
 ## Title: BigWigs |cff02bf02VG|r
 ## Notes: Boss Mods with Timer bars.
 ## Author: Luise
-## Version: 20000
+## Version: 30000
 ## X-Website: https://github.com/isitLoVe/BigWigsVG
 ## X-Email: luise.paradigm@gmail.com
 ## X-Category: Raid
@@ -11,7 +11,7 @@
 ## OptionalDeps: Ace2, FuBar, FuBarPlugin-2.0, Babble-2.2, CandyBar, CompostLib, DewdropLib, PaintChipsLib, TabletLib, SurfaceLib, Surfaces, MikScrollingBattleText, sct, SpellStatusLib, SpellCacheLib, GratuityLib, Deformat, SpecialEventsEmbed
 ## X-Embeds: Ace2, FuBarPlugin-2.0, Babble-2.2, CandyBar, CompostLib, DewdropLib, PaintChipsLib, TabletLib, SurfaceLib
 
-## SavedVariables: BigWigsDB, BigWigsFubarDB, BigWigsCommonAurasDB, BigWigsZombieFoodDB, BigWigsRespawnTimersDB, BigWigsContributeFlag
+## SavedVariables: BigWigsDB, BigWigsFubarDB, BigWigsRespawnTimersDB
 ## SavedVariablesPerCharacter: BigWigsDBPerChar
 
 Libs\AceLibrary\AceLibrary.lua
@@ -57,22 +57,16 @@ Plugins\RaidWarn.lua
 Plugins\BossBlock.lua
 Plugins\RaidIcon.lua
 Plugins\Range.lua
-Plugins\CommonAuras.lua
-Plugins\contribute.lua
 Plugins\Version.lua
 Plugins\Test.lua
 Plugins\CustomBar.lua
 Plugins\Tranq.lua
-Plugins\ZombieFood.lua
-Plugins\LoathebTactical.lua
 Plugins\RespawnTimers.lua
 Plugins\WarningSign.lua
 Plugins\BossRecords.lua
-Plugins\ReadyCheck.lua
 Plugins\RaidOfficer.lua
 Plugins\AutoReply.lua
 Plugins\Proximity.lua
-Plugins\DousedRunes.lua
 Plugins\Enrage.lua
 Plugins\Ignite.lua
 Plugins\Combat.lua

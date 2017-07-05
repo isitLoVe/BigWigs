@@ -90,60 +90,12 @@ L:RegisterTranslations("enUS", function() return {
     ["HP Bars"] = true,
 } end)
 
-L:RegisterTranslations("deDE", function() return {
-	["Bars"] = "Anzeigebalken",
-
-	["bars"] = "balken",
-
-	["Options for the timer bars."] = "Optionen für die Timer Anzeigebalken.",
-	["Show the bar anchor frame."] = "Verankerung der Anzeigebalken anzeigen.",
-	["Set the bar scale."] = "Skalierung der Anzeigebalken wählen.",
-	["Group upwards"] = "Nach oben fortsetzen",
-	["Toggle bars grow upwards/downwards from anchor."] = "Anzeigebalken von der Verankerung aus nach oben/unten fortsetzen.",
-
-	["Timer bars"] = "Timer Anzeigebalken",
-	["Show anchor"] = "Verankerung anzeigen",
-	["Grow bars upwards"] = "Anzeigebalken nach oben fortsetzen",
-	["Scale"] = "Skalierung",
-	["Bar scale"] = "Anzeigebalken Skalierung",
-
-	["Bars now grow %2$s"] = "Anzeigebalken werden nun fortgesetzt nach: %2$s",
-	["Scale is set to %2$s"] = "Skalierung jetzt: %2$s",
-
-	["Up"] = "oben",
-	["Down"] = "unten",
-	
-	["Test"] = "Test",
-	["Close"] = "Schlie\195\159en",
-
-	["Texture"] = "Textur",
-	["Set the texture for the timerbars."] = "Textur der Anzeigebalken wählen.",
-            
-            
-    
-            
-    ["Reset position"] = "Position zurücksetzen",
-	["Reset the anchor position, moving it to the center of your screen."] = "Die Verankerungsposition zurücksetzen (bewegt die Balken zur Mitte deines Interfaces).",
-    ["Reverse"] = "Umkehren",
-	["Toggles if bars are reversed (fill up instead of emptying)."] = "Legt fest, ob sich die Anzeigebalken füllen oder leeren sollen.",
-    ["Emphasize"] = "Hervorheben",
-	["Emphasize bars that are close to completion (<10sec). Also note that bars started at less than 15 seconds initially will be emphasized right away."] = "Anzeigebalken hervorheben die kurz vor Abschluss sind (<10sek). Anzeigebalken die mit einem Timer von weniger als 15 Sekunden starten werden von Beginn weg als hervorgehobene Balken dargestellt.",
-    ["Enable"] = "Aktivieren",
-	["Enables emphasizing bars."] = "Aktiviert hervorgehobene Anzeigebalken.",
-    ["Flash"] = "Blinken",
-	["Flashes the background red for bars that are emphasized."] = "Lässt den Hintergrund von hervorgehobenen Anzeigebalken rot blinken.",
-    ["Move"] = "Bewegen",
-	["Move bars that are emphasized to a second anchor."] = "Hervorgehobene Anzeigebalken zu einem zweiten Ankerpunkt bewegen.",
-    ["Set the scale for emphasized bars."] = "Die Skalierung für hervorgehobene Anzeigebalken festlegen.",
-    ["Emphasize Bars"] = "Hervorgehobene Balken",
-} end)
-
 ----------------------------------
 --      Module Declaration      --
 ----------------------------------
 
 BigWigsBars = BigWigs:NewModule(L["Bars"])
-BigWigsBars.revision = tonumber(string.sub("$Revision: 20003 $", 12, -3))
+BigWigsBars.revision = tonumber(string.sub("$Revision: 30000 $", 12, -3))
 BigWigsBars.defaultDB = {
 	growup = false,
 	scale = 1.0,
